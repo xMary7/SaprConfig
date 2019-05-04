@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
     class FileAnalizer
     {
-        public List<List<double>> GetNumericData(string fileName)
+        public List<List<double>> GetNumericData(string fileName, string ind)
         {
             List<List<double>> data = new List<List<double>>();
             using (StreamReader sr = new StreamReader(fileName))
@@ -17,10 +18,16 @@ namespace WindowsFormsApp1
                 string str = sr.ReadLine();
                 while (str != null)
                 {
-                    List<double> newObject = new List<double>();
-                    foreach (string s in str.Split(' ').ToList())
-                        if (s != "") newObject.Add(Double.Parse(s));
-                    data.Add(newObject);
+                    Regex myReg = new Regex(ind);
+                    if (myReg.IsMatch(str))
+                    {
+
+                        List<double> newObject = new List<double>();
+
+                        foreach (string s in str.Split(' ').ToList())
+                            if ((s != "") && (!myReg.IsMatch(s))) newObject.Add(Double.Parse(s));
+                        data.Add(newObject);
+                    }
                     str = sr.ReadLine();
                 }
 

@@ -177,50 +177,53 @@ namespace WindowsFormsApp1
                 dendogram = new DendogramDouble(fullData, 20, 20, 15, 30);
             //инициализация set
             InitSet(ref log, dendogram.set);
-            // Определили расстояния между заданными векторами
-            for (int i = 0; i < fullData.Count; i++)
+            if (fullData.Count > 1)
             {
-                for (int j = i + 1; j < fullData.Count; j++)
+                // Определили расстояния между заданными векторами
+                for (int i = 0; i < fullData.Count; i++)
                 {
-                    R.Add(new Tuple<int, int>(i, j), FindSimpleDistance(i, j));
+                    for (int j = i + 1; j < fullData.Count; j++)
+                    {
+                        R.Add(new Tuple<int, int>(i, j), FindSimpleDistance(i, j));
+                    }
                 }
-            }
-            // АЛГОРИТМ
-            for (int n = dendogram.set.Count; dendogram.set.Count != 1; n++)
-            {
-                int[] key = new int[2]; //множества для объединения
-                                        // сортировка массива расстояний
-                R = R.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+                // АЛГОРИТМ
+                for (int n = dendogram.set.Count; dendogram.set.Count != 1; n++)
+                {
+                    int[] key = new int[2]; //множества для объединения
+                                            // сортировка массива расстояний
+                    R = R.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
 
-                Tuple<int, int> min = R.ElementAt(0).Key;
-                log += "\r\nМинимальное расстояние: " + R[min].ToString() + "\r\n";
-                key[0] = min.Item1;
-                key[1] = min.Item2;
-                //Объединилимножества
-                // dendogram.set.Add(n, new List<int>(set[key[0]].Concat(set[key[1]]).ToList()));
-                dendogram.AddUnion(n, R.ElementAt(0).Value, key);
-                // Определиликонстанты
-                if (nameOfDistanceFunc == "average" || nameOfDistanceFunc == "cen-troid")
-                {
-                    for (int i = 0; i < 2; i++)
+                    Tuple<int, int> min = R.ElementAt(0).Key;
+                    log += "\r\nМинимальное расстояние: " + R[min].ToString() + "\r\n";
+                    key[0] = min.Item1;
+                    key[1] = min.Item2;
+                    //Объединилимножества
+                    // dendogram.set.Add(n, new List<int>(set[key[0]].Concat(set[key[1]]).ToList()));
+                    dendogram.AddUnion(n, R.ElementAt(0).Value, key);
+                    // Определиликонстанты
+                    if (nameOfDistanceFunc == "average" || nameOfDistanceFunc == "cen-troid")
                     {
-                        a[i] = (double)dendogram.set[key[i]].countOfElem / dendogram.set[n].countOfElem;
+                        for (int i = 0; i < 2; i++)
+                        {
+                            a[i] = (double)dendogram.set[key[i]].countOfElem / dendogram.set[n].countOfElem;
+                        }
+                        if (nameOfDistanceFunc == "centroid")
+                        {
+                            // case "group average distance": b = 0; g = 0; break;
+                            b = -a[0] * a[1];
+                        }
                     }
-                    if (nameOfDistanceFunc == "centroid")
-                    {
-                        // case "group average distance": b = 0; g = 0; break;
-                        b = -a[0] * a[1];
-                    }
+                    CorrectDistances(dendogram.set, key, n, null, null, null, 0);
+                    //удалилисаморасстояниеимножества
+                    R.Remove(new Tuple<int, int>(Math.Min(key[0], key[1]), Math.Max(key[0], key[1])));
+                    dendogram.set.Remove(key[0]);
+                    dendogram.set.Remove(key[1]);
+                    OutputSets(ref log, dendogram.set);
+                    // добавлениестрокивфайл
+                    File.AppendAllText("log1.txt", log);
+                    log = "";
                 }
-                CorrectDistances(dendogram.set, key, n, null, null, null, 0);
-                //удалилисаморасстояниеимножества
-                R.Remove(new Tuple<int, int>(Math.Min(key[0], key[1]), Math.Max(key[0], key[1])));
-                dendogram.set.Remove(key[0]);
-                dendogram.set.Remove(key[1]);
-                OutputSets(ref log, dendogram.set);
-                // добавлениестрокивфайл
-                File.AppendAllText("log1.txt", log);
-                log = "";
             }
             myStopwatch.Stop();
             dendogram.time = myStopwatch.ElapsedMilliseconds;
@@ -239,83 +242,86 @@ namespace WindowsFormsApp1
                 dendogram = new DendogramDouble(fullData, 20, 20, 15, 30);
             //инициализация set
             InitSet(ref log, dendogram.set);
-            // Определили расстояния между заданными векторами
-            for (int i = 0; i < fullData.Count; i++)
+            if (fullData.Count > 1)
             {
-                for (int j = i + 1; j < fullData.Count; j++)
+                // Определили расстояния между заданными векторами
+                for (int i = 0; i < fullData.Count; i++)
                 {
-                    R.Add(new Tuple<int, int>(i, j), FindSimpleDistance(i, j));
-                }
-            }
-            //выбрали n рандомом
-            Dictionary<Tuple<int, int>, double> P = new Dictionary<Tuple<int, int>, double>();
-            // List <ref obj> P = List
-            if (n1 < R.Count)
-                GetRandom(P, n1);
-            else
-                foreach (Tuple<int, int> k in R.Keys)
-                    P.Add(k, R[k]);
-            // АЛГОРИТМ
-            for (int n = dendogram.set.Count; dendogram.set.Count != 1; n++)
-            {
-                if (P.Count == 0)
-                {
-                    needToChangeDelta = true;
-                    if (R.Count <= n1)
+                    for (int j = i + 1; j < fullData.Count; j++)
                     {
-                        foreach (Tuple<int, int> k in R.Keys)
-                            P.Add(k, R[k]);
-                    }
-                    else
-                        GetRandom(P, n1);
-                }
-                int[] key = new int[2]; //множества для объединения
-                                        // сортировка массива расстояний
-                                        // P = P.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
-                double minVal = Int32.MaxValue;
-                Tuple<int, int> min = null;
-                foreach (Tuple<int, int> k in P.Keys)
-                {
-                    if (P[k] < minVal)
-                    {
-                        minVal = P[k];
-                        min = k;
+                        R.Add(new Tuple<int, int>(i, j), FindSimpleDistance(i, j));
                     }
                 }
-                //  Tuple<int, int> min = P.ElementAt(0).Key;
-                if (needToChangeDelta)
+                //выбрали n рандомом
+                Dictionary<Tuple<int, int>, double> P = new Dictionary<Tuple<int, int>, double>();
+                // List <ref obj> P = List
+                if (n1 < R.Count)
+                    GetRandom(P, n1);
+                else
+                    foreach (Tuple<int, int> k in R.Keys)
+                        P.Add(k, R[k]);
+                // АЛГОРИТМ
+                for (int n = dendogram.set.Count; dendogram.set.Count != 1; n++)
                 {
-                    delta = P.ElementAt(0).Value;
-                    needToChangeDelta = false;
-                }
-                log += "\r\nМинимальноерасстояние: " + R[min].ToString() + "\r\n";
-                key[0] = min.Item1;
-                key[1] = min.Item2;
-                //Объединилимножества
-                dendogram.AddUnion(n, P[min], key);
-                // Определиликонстанты
-                if (nameOfDistanceFunc == "average" || nameOfDistanceFunc == "cen-troid")
-                {
-                    for (int i = 0; i < 2; i++)
+                    if (P.Count == 0)
                     {
-                        a[i] = (double)dendogram.set[key[i]].countOfElem / dendogram.set[n].countOfElem;
+                        needToChangeDelta = true;
+                        if (R.Count <= n1)
+                        {
+                            foreach (Tuple<int, int> k in R.Keys)
+                                P.Add(k, R[k]);
+                        }
+                        else
+                            GetRandom(P, n1);
                     }
-                    if (nameOfDistanceFunc == "centroid")
+                    int[] key = new int[2]; //множества для объединения
+                                            // сортировка массива расстояний
+                                            // P = P.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+                    double minVal = Int32.MaxValue;
+                    Tuple<int, int> min = null;
+                    foreach (Tuple<int, int> k in P.Keys)
                     {
-                        // case "group average distance": b = 0; g = 0; break;
-                        b = -a[0] * a[1];
+                        if (P[k] < minVal)
+                        {
+                            minVal = P[k];
+                            min = k;
+                        }
                     }
+                    //  Tuple<int, int> min = P.ElementAt(0).Key;
+                    if (needToChangeDelta)
+                    {
+                        delta = P.ElementAt(0).Value;
+                        needToChangeDelta = false;
+                    }
+                    log += "\r\nМинимальноерасстояние: " + R[min].ToString() + "\r\n";
+                    key[0] = min.Item1;
+                    key[1] = min.Item2;
+                    //Объединилимножества
+                    dendogram.AddUnion(n, P[min], key);
+                    // Определиликонстанты
+                    if (nameOfDistanceFunc == "average" || nameOfDistanceFunc == "cen-troid")
+                    {
+                        for (int i = 0; i < 2; i++)
+                        {
+                            a[i] = (double)dendogram.set[key[i]].countOfElem / dendogram.set[n].countOfElem;
+                        }
+                        if (nameOfDistanceFunc == "centroid")
+                        {
+                            // case "group average distance": b = 0; g = 0; break;
+                            b = -a[0] * a[1];
+                        }
+                    }
+                    CorrectDistances1(dendogram.set, key, n, P, delta);
+                    //удалилисаморасстояниеимножества
+                    R.Remove(new Tuple<int, int>(Math.Min(key[0], key[1]), Math.Max(key[0], key[1])));
+                    P.Remove(new Tuple<int, int>(Math.Min(key[0], key[1]), Math.Max(key[0], key[1])));
+                    dendogram.set.Remove(key[0]);
+                    dendogram.set.Remove(key[1]);
+                    OutputSets(ref log, dendogram.set);
+                    // добавлениестрокивфайл
+                    File.AppendAllText("log1.txt", log);
+                    log = "";
                 }
-                CorrectDistances1(dendogram.set, key, n, P, delta);
-                //удалилисаморасстояниеимножества
-                R.Remove(new Tuple<int, int>(Math.Min(key[0], key[1]), Math.Max(key[0], key[1])));
-                P.Remove(new Tuple<int, int>(Math.Min(key[0], key[1]), Math.Max(key[0], key[1])));
-                dendogram.set.Remove(key[0]);
-                dendogram.set.Remove(key[1]);
-                OutputSets(ref log, dendogram.set);
-                // добавлениестрокивфайл
-                File.AppendAllText("log1.txt", log);
-                log = "";
             }
             myStopwatch.Stop();
             dendogram.time = myStopwatch.ElapsedMilliseconds;

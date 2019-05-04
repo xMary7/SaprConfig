@@ -32,8 +32,8 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.refPageTB = new System.Windows.Forms.TextBox();
             this.testedPageTB = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.dataTypeCB = new System.Windows.Forms.ComboBox();
             this.accuracyLb = new System.Windows.Forms.Label();
             this.timeProfit = new System.Windows.Forms.Label();
@@ -49,6 +49,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox1
@@ -57,11 +59,11 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(172, 26);
             this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "C:\\data2.txt";
+            this.textBox1.Text = "C:\\Users\\User\\Documents\\data4.txt";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(300, 277);
+            this.textBox2.Location = new System.Drawing.Point(300, 328);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 26);
             this.textBox2.TabIndex = 1;
@@ -81,32 +83,32 @@
             this.testedPageTB.Size = new System.Drawing.Size(100, 26);
             this.testedPageTB.TabIndex = 3;
             // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Lance-Wiliams",
-            "FastLance-Wiliams"});
-            this.comboBox1.Location = new System.Drawing.Point(228, 102);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(172, 28);
-            this.comboBox1.TabIndex = 4;
-            this.comboBox1.Text = "Lance-Wiliams";
-            // 
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Items.AddRange(new object[] {
+            "Lance-Wiliams",
+            "FastLance-Wiliams"});
+            this.comboBox2.Location = new System.Drawing.Point(228, 174);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(172, 28);
+            this.comboBox2.TabIndex = 4;
+            this.comboBox2.Text = "Lance-Wiliams";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
             "nearest neightbor",
             "furthest neightbor",
             "average",
             "centroid",
             "Wards"});
-            this.comboBox2.Location = new System.Drawing.Point(228, 154);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(172, 28);
-            this.comboBox2.TabIndex = 5;
-            this.comboBox2.Text = "nearest neighbor";
+            this.comboBox1.Location = new System.Drawing.Point(229, 227);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(172, 28);
+            this.comboBox1.TabIndex = 5;
+            this.comboBox1.Text = "nearest neighbor";
             // 
             // dataTypeCB
             // 
@@ -114,7 +116,7 @@
             this.dataTypeCB.Items.AddRange(new object[] {
             "dichotomic",
             "numeric"});
-            this.dataTypeCB.Location = new System.Drawing.Point(228, 209);
+            this.dataTypeCB.Location = new System.Drawing.Point(228, 277);
             this.dataTypeCB.Name = "dataTypeCB";
             this.dataTypeCB.Size = new System.Drawing.Size(172, 28);
             this.dataTypeCB.TabIndex = 6;
@@ -150,7 +152,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(176, 346);
+            this.button3.Location = new System.Drawing.Point(175, 393);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(89, 32);
             this.button3.TabIndex = 11;
@@ -180,7 +182,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(31, 105);
+            this.label2.Location = new System.Drawing.Point(33, 182);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(76, 20);
             this.label2.TabIndex = 14;
@@ -189,7 +191,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 162);
+            this.label3.Location = new System.Drawing.Point(12, 235);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(196, 20);
             this.label3.TabIndex = 15;
@@ -198,7 +200,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(31, 217);
+            this.label4.Location = new System.Drawing.Point(31, 285);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(78, 20);
             this.label4.TabIndex = 16;
@@ -207,7 +209,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(31, 280);
+            this.label5.Location = new System.Drawing.Point(31, 334);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(83, 20);
             this.label5.TabIndex = 17;
@@ -249,11 +251,40 @@
             this.label9.TabIndex = 21;
             this.label9.Text = "Accuracy, per";
             // 
+            // comboBox3
+            // 
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "Industry1",
+            "Industry2",
+            "Industry3",
+            "Industry4",
+            "Industry5",
+            "Industry6",
+            "Others"});
+            this.comboBox3.Location = new System.Drawing.Point(228, 105);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(172, 28);
+            this.comboBox3.TabIndex = 22;
+            this.comboBox3.Text = "Industry1";
+            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.ComboBox3_SelectedIndexChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(33, 113);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(135, 20);
+            this.label10.TabIndex = 23;
+            this.label10.Text = "Industry of design";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.comboBox3);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -269,8 +300,8 @@
             this.Controls.Add(this.timeProfit);
             this.Controls.Add(this.accuracyLb);
             this.Controls.Add(this.dataTypeCB);
-            this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.testedPageTB);
             this.Controls.Add(this.refPageTB);
             this.Controls.Add(this.textBox2);
@@ -288,8 +319,8 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox refPageTB;
         private System.Windows.Forms.TextBox testedPageTB;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox dataTypeCB;
         private System.Windows.Forms.Label accuracyLb;
         private System.Windows.Forms.Label timeProfit;
@@ -305,6 +336,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.Label label10;
     }
 }
 

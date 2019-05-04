@@ -28,44 +28,12 @@ namespace WindowsFormsApp1
             InitializeComponent();
             Repository.Initialize();
         }
-        //private void button4_Click(object sender, EventArgs e)
-        //{
-        //    Stream myStream = null;
-        //    OpenFileDialog openFileDialog1 = new OpenFileDialog();
-        //    openFileDialog1.InitialDirectory = "c:\\";
-        //    openFileDialog1.Filter = "All files (*.*)|*.*";
-        //    openFileDialog1.FilterIndex = 2;
-        //    openFileDialog1.RestoreDirectory = true;
-        //    if (openFileDialog1.ShowDialog() == DialogResult.OK)
-        //    {
-        //        textBox1.Text = openFileDialog1.FileName.ToString();
-        //        try
-        //        {
-        //            if ((myStream = openFileDialog1.OpenFile()) != null)
-        //            { }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
-        //        }
-        //    }
-        //}
 
-        //private void button3_Click(object sender, EventArgs e)
-        //{
-        //    FileAnalizer fa = new FileAnalizer();
-        //    Algorithms a;
-        //    if (dataTypeCB.Text == "dichotomic")
-        //        a = new AlgorithmForString(fa.GetStringData(textBox1.Text));
-        //    else
-        //        a = new AlgorithmForDouble(fa.GetNumericData(textBox1.Text));
-        //    Repository.AddPicture(a.Algorithm(comboBox1.Text, comboBox2.Text, Int32.Parse(textBox2.Text)));
-        //}
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox2.SelectedIndex != 0)
+            if (comboBox1.SelectedIndex != 0)
             {
-                comboBox1.SelectedIndex = 4;
+                comboBox2.SelectedIndex = 4;
                 textBox2.Visible = true;
             }
             else
@@ -73,67 +41,6 @@ namespace WindowsFormsApp1
                 textBox2.Visible = false;
             }
         }
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    int refPage, testedPage;
-        //    try
-        //    {
-        //        refPage = Int32.Parse(refPageTB.Text) - 1;
-        //        testedPage = Int32.Parse(testedPageTB.Text) - 1;
-        //        List<List<int>> refClusters = Repository.pictures[refPage].clusters;
-        //        List<List<int>> testedClusters = Repository.pictures[testedPage].clusters;
-
-        //        int[][] contains = new int[refClusters.Count][];
-        //        bool[] refClusterIsNeededToCheck = new bool[refClusters.Count];
-        //        int error = 0;
-        //        for (int i = 0; i < refClusters.Count; i++)
-        //        {
-        //            refClusterIsNeededToCheck[i] = true;
-        //            contains[i] = new int[2];
-        //        }
-        //        foreach (List<int> testedCluster in testedClusters)
-        //        {
-        //            for (int r = 0; r < refClusters.Count; r++)
-        //            {
-        //                if (refClusterIsNeededToCheck[r])
-        //                {
-        //                    foreach (int elem in testedCluster)
-        //                    {
-        //                        if (refClusters[r].Contains(elem))
-        //                            contains[r][0]++;
-        //                    }
-        //                    contains[r][1] = testedCluster.Count - contains[r][0];
-        //                }
-        //            }
-        //            int max = Int32.MinValue;
-        //            int index = 0;
-        //            for (int ind = 0; ind < refClusterIsNeededToCheck.Length; ind++)
-        //            {
-        //                if (refClusterIsNeededToCheck[ind] && contains[ind][0] > max)
-        //                {
-        //                    max = contains[ind][0];
-        //                    index = ind;
-        //                }
-        //            }
-        //            refClusterIsNeededToCheck[index] = false;
-        //            error += contains[index][1];
-        //            for (int i = 0; i < refClusters.Count; i++)
-        //            {
-        //                if (refClusterIsNeededToCheck[i])
-        //                    contains[i][0] = 0;// содержаться
-        //                contains[i][1] = 0; // несодежраться
-        //            }
-        //        }
-        //        int commonCount = refClusters[0].Count + refClusters[1].Count;
-        //        int per = 100 * (commonCount - error) / commonCount;
-        //        accuracyLb.Text = per.ToString();
-        //        timeProfit.Text = (100 * (Repository.pictures[refPage].time - Repository.pictures[testedPage].time) / Repository.pictures[refPage].time).ToString();
-        //    }
-        //    catch
-        //    {
-        //        MessageBox.Show("EnterPages");
-        //    }
-        //}
 
         private void Button3_Click_1(object sender, EventArgs e)
         {
@@ -142,8 +49,11 @@ namespace WindowsFormsApp1
             if (dataTypeCB.Text == "dichotomic")
                 a = new AlgorithmForString(fa.GetStringData(textBox1.Text));
             else
-                a = new AlgorithmForDouble(fa.GetNumericData(textBox1.Text));
-            Repository.AddPicture(a.Algorithm(comboBox1.Text, comboBox2.Text, Int32.Parse(textBox2.Text)));
+                a = new AlgorithmForDouble(fa.GetNumericData(textBox1.Text, comboBox3.Text));
+            //if (fa.GetNumericData(textBox1.Text, comboBox3.Text).Count > 1)
+            //{
+                Repository.AddPicture(a.Algorithm(comboBox2.Text, comboBox1.Text, Int32.Parse(textBox2.Text)));
+            //}
         }
 
         private void Button4_Click_1(object sender, EventArgs e)
@@ -229,6 +139,11 @@ namespace WindowsFormsApp1
             {
                 MessageBox.Show("EnterPages");
             }
+        }
+
+        private void ComboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

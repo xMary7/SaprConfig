@@ -1,0 +1,7 @@
+0 1 Industry1
+3 4 Industry1 
+6 9 Industry1
+10 4 Industry1
+23 20 Industry1
+2 8 Industry2
+7 16 Industry1
