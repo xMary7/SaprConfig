@@ -31,9 +31,9 @@ namespace WindowsFormsApp1
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex != 0)
+            if (comboBox2.SelectedIndex != 0)
             {
-                comboBox2.SelectedIndex = 4;
+                comboBox1.SelectedIndex = 4;
                 textBox2.Visible = true;
             }
             else

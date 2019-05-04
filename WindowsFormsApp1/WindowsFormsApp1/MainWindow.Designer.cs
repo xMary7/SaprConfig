@@ -32,8 +32,8 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.refPageTB = new System.Windows.Forms.TextBox();
             this.testedPageTB = new System.Windows.Forms.TextBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.dataTypeCB = new System.Windows.Forms.ComboBox();
             this.accuracyLb = new System.Windows.Forms.Label();
             this.timeProfit = new System.Windows.Forms.Label();
@@ -83,32 +83,32 @@
             this.testedPageTB.Size = new System.Drawing.Size(100, 26);
             this.testedPageTB.TabIndex = 3;
             // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "Lance-Wiliams",
-            "FastLance-Wiliams"});
-            this.comboBox2.Location = new System.Drawing.Point(228, 174);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(172, 28);
-            this.comboBox2.TabIndex = 4;
-            this.comboBox2.Text = "Lance-Wiliams";
-            // 
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
+            "Lance-Wiliams",
+            "FastLance-Wiliams"});
+            this.comboBox1.Location = new System.Drawing.Point(228, 174);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(172, 28);
+            this.comboBox1.TabIndex = 4;
+            this.comboBox1.Text = "Lance-Wiliams";
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
             "nearest neightbor",
             "furthest neightbor",
             "average",
             "centroid",
             "Wards"});
-            this.comboBox1.Location = new System.Drawing.Point(229, 227);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(172, 28);
-            this.comboBox1.TabIndex = 5;
-            this.comboBox1.Text = "nearest neighbor";
+            this.comboBox2.Location = new System.Drawing.Point(229, 227);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(172, 28);
+            this.comboBox2.TabIndex = 5;
+            this.comboBox2.Text = "nearest neighbor";
             // 
             // dataTypeCB
             // 
@@ -300,8 +300,8 @@
             this.Controls.Add(this.timeProfit);
             this.Controls.Add(this.accuracyLb);
             this.Controls.Add(this.dataTypeCB);
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.testedPageTB);
             this.Controls.Add(this.refPageTB);
             this.Controls.Add(this.textBox2);
@@ -319,8 +319,8 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox refPageTB;
         private System.Windows.Forms.TextBox testedPageTB;
-        private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.ComboBox dataTypeCB;
         private System.Windows.Forms.Label accuracyLb;
         private System.Windows.Forms.Label timeProfit;

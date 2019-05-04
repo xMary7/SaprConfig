@@ -18,14 +18,16 @@ namespace WindowsFormsApp1
                 string str = sr.ReadLine();
                 while (str != null)
                 {
+                    Regex numbersReg = new Regex(@"[a-z]");
                     Regex myReg = new Regex(ind);
                     if (myReg.IsMatch(str))
                     {
 
                         List<double> newObject = new List<double>();
-
                         foreach (string s in str.Split(' ').ToList())
-                            if ((s != "") && (!myReg.IsMatch(s))) newObject.Add(Double.Parse(s));
+                            //if ((s != "") && (!myReg.IsMatch(s))) newObject.Add(Double.Parse(s));
+                            if ((s != "") && (!numbersReg.IsMatch(s)))
+                                newObject.Add(Double.Parse(s));
                         data.Add(newObject);
                     }
                     str = sr.ReadLine();

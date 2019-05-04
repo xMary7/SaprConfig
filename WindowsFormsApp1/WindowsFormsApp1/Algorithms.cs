@@ -46,7 +46,7 @@ namespace WindowsFormsApp1
     public class Algorithms
     {
         #region parametrs
-        Dictionary<Tuple<int, int>, double> R;//= new SortedDiction-ary<Tuple<int, int>, double>();
+        Dictionary<Tuple<int, int>, double> R;//= new SortedDictionary<Tuple<int, int>, double>();
         double b, g;
         double[] a;
         int n1 = 4;
