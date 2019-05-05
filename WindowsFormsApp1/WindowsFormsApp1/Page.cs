@@ -74,25 +74,58 @@ namespace WindowsFormsApp1
 
         private string GetInfoOfClusters()
         {
+            List<Object> temp = new List<Object>();
+
             string str = "";
             if (d.fullData.Count > 1)
             {
                 for (int i = 0; i < d.clusters.Count; i++)
                 {
                     d.clusters[i].Sort();
-                    str += "Cluster " + (i + 1) + ": {";
-                    str += d.clusters[i][0];
-                    for (int elem = 1; elem < d.clusters[i].Count; elem++)
-                        str += ", " + d.clusters[i][elem];
+                    str += "Cluster " + (i + 1) + ":\n{";
+                    //str += d.clusters[i][0] + ": " + d.fullData[i][0] + " ";
+                    for (int elem = 0; elem < d.clusters[i].Count; elem++)
+                    {
+                        
+                       // str += d.clusters[i][elem] + ": ";
+                        for (int n = 0; n < d.fullData[elem].Count; n++) {
+                            Type t = d.fullData[elem][n].GetType();
+                            if (!t.Equals(typeof(Double)))
+                            {
+                                temp.Add(d.fullData[elem][n]);
+                                //str += d.fullData[elem][n] + " ";
+                            }
+                        }
+                        //str += "\n";
+                    }
+                    IEnumerable<Object> subsystems = temp.Distinct();
+                    foreach (var ss in subsystems)
+                    {
+                        str += ss + " \n";
+                    }
+
                     str += "}\n";
                 }
             }
             else
             {
+
                 str += "Cluster 1: {";
-                str += d.fullData[0][0];
-                for (int elem = 1; elem < d.fullData[0].Count; elem++)
-                    str += ", " + d.fullData[0][elem];
+               // str += d.fullData[0][0];
+                for (int elem = 0; elem < d.fullData[0].Count; elem++)
+                {
+                    Type t = d.fullData[0][elem].GetType();
+                    if (!t.Equals(typeof(Double)))
+                    {
+                        temp.Add(d.fullData[0][elem]);
+                        //str += d.fullData[0][elem] + " ";
+                    }
+                }
+                IEnumerable<Object> subsystems = temp.Distinct();
+                foreach (var ss in subsystems)
+                {
+                    str += ss + " \n";
+                }
                 str += "}\n";
             }
 

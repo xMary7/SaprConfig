@@ -18,11 +18,18 @@ namespace WindowsFormsApp1
             }
             return d;
         }
-        static private double RN(List<double> obj1, List<double> obj2)
+        static private double RN(List<Object> obj1, List<Object> obj2)
         {
             double distance = 0;
             for (int k = 0; k < obj1.Count; k++)
-                distance += Math.Abs(obj1[k] - obj2[k]);
+            {
+                Type t1 = obj1[k].GetType();
+                Type t2 = obj2[k].GetType();
+                if (t1.Equals(typeof(Double)))
+                {
+                    distance += Math.Abs(Convert.ToDouble(obj1[k]) - Convert.ToDouble(obj2[k]));
+                }
+            }
             return Math.Sqrt(distance);
         }
         static private List<List<string>> GetCentrOfClusterD(List<List<string>> data, List<List<int>> clusters)
@@ -49,19 +56,26 @@ namespace WindowsFormsApp1
             }
             return middleOfCluster;
         }
-        static private List<List<double>> GetCentrOfClusterN(List<List<double>> data, List<List<int>> clusters)
+        static private List<List<Object>> GetCentrOfClusterN(List<List<Object>> data, List<List<int>> clusters)
         {
-            List<List<double>> middleOfCluster = new List<List<double>>();
+            List<List<Object>> middleOfCluster = new List<List<Object>>();
             for (int cluster = 0; cluster < clusters.Count; cluster++)
             {
-                middleOfCluster.Add(new List<double>());
+                middleOfCluster.Add(new List<Object>());
 
                 //покаждомусвойству
                 for (int property = 0; property < data[0].Count; property++)
                 {
                     double res = 0;
                     foreach (int elem in clusters[cluster])
-                        res += data[elem][property];
+                    {
+                        Type t = data[elem][property].GetType();
+                        if (t.Equals(typeof(Double)))
+                        {
+                            res += Convert.ToDouble(data[elem][property]);
+                        }
+                    }
+                    
                     middleOfCluster[cluster].Add(res / clusters[cluster].Count);
 
                 }
@@ -100,16 +114,17 @@ namespace WindowsFormsApp1
             }
             return res;
         }
-        static public float F1(List<List<double>> data, List<List<int>> clusters)
+        static public float F1(List<List<Object>> data, List<List<int>> clusters)
         {
             double res = 0;
-            List<List<double>> middleOfCluster = GetCentrOfClusterN(data, clusters);
+            List<List<Object>> middleOfCluster = GetCentrOfClusterN(data, clusters);
 
             for (int c = 0; c < clusters.Count; c++)
             {
                 double sumOfCl = 0;
                 foreach (int elem in clusters[c])
                 {
+                    
                     double d = RN(data[elem], middleOfCluster[c]);
                     sumOfCl += d * d;
                 }
@@ -117,10 +132,10 @@ namespace WindowsFormsApp1
             }
             return (float)res;
         }
-        static public float F4(List<List<double>> data, List<List<int>> clusters)
+        static public float F4(List<List<Object>> data, List<List<int>> clusters)
         {
             double res = 0;
-            List<List<double>> middleOfCluster = GetCentrOfClusterN(data, clusters);
+            List<List<object>> middleOfCluster = GetCentrOfClusterN(data, clusters);
             List<List<int>> common = new List<List<int>>();
             List<int> l = new List<int>();
             for (int i = 0; i < data.Count; i++)
@@ -128,9 +143,10 @@ namespace WindowsFormsApp1
                 l.Add(i);
             }
             common.Add(l);
-            List<List<double>> middle = GetCentrOfClusterN(data, common);
+            List<List<Object>> middle = GetCentrOfClusterN(data, common);
             for (int c1 = 0; c1 < clusters.Count; c1++)
             {
+                
                 double d = RN(middleOfCluster[c1], middle[0]);
                 res += d * d;
 

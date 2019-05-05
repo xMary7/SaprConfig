@@ -28,18 +28,25 @@ namespace WindowsFormsApp1
     }
     public class AlgorithmForDouble : Algorithms
     {
-        public AlgorithmForDouble(List<List<double>> data) : base()
+        public AlgorithmForDouble(List<List<Object>> data) : base()
         {
             fullData = data;
             type = "double";
         }
         public override double FindSimpleDistance(int index1, int index2)
         {
-            List<double> obj1 = fullData[index1];
-            List<double> obj2 = fullData[index2];
+            List<Object> obj1 = fullData[index1];
+            List<Object> obj2 = fullData[index2];
             double distance = 0;
             for (int k = 0; k < fullData[0].Count; k++)
-                distance += Math.Abs(obj1[k] - obj2[k]);
+            {
+                Type t1 = obj1[k].GetType();
+                Type t2 = obj2[k].GetType();
+                if (t1.Equals(typeof(Double)) && t2.Equals(typeof(Double)))
+                {
+                    distance += Math.Abs(Convert.ToDouble(obj1[k]) - Convert.ToDouble(obj2[k]));
+                }
+            }
             return Math.Sqrt(distance);
         }
     }
@@ -127,7 +134,7 @@ namespace WindowsFormsApp1
                 }
             }
         }
-        public Dendogram Algorithm(string nameOfDistanceFunc, string nameOfFunction, int n)
+        public Dendogram Algorithm(string nameOfDistanceFunc, string nameOfFunction, int n, Double cost, Double duration)
         {
             n1 = n;
             if (nameOfDistanceFunc == "Wards")

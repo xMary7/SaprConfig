@@ -10,9 +10,9 @@ namespace WindowsFormsApp1
 {
     class FileAnalizer
     {
-        public List<List<double>> GetNumericData(string fileName, string ind)
+        public List<List<Object>> GetNumericData(string fileName, string ind)
         {
-            List<List<double>> data = new List<List<double>>();
+            List<List<Object>> data = new List<List<Object>>();
             using (StreamReader sr = new StreamReader(fileName))
             {
                 string str = sr.ReadLine();
@@ -22,12 +22,20 @@ namespace WindowsFormsApp1
                     Regex myReg = new Regex(ind);
                     if (myReg.IsMatch(str))
                     {
-
-                        List<double> newObject = new List<double>();
+                        List<Object> newObject = new List<Object>();
                         foreach (string s in str.Split(' ').ToList())
+                        {
                             //if ((s != "") && (!myReg.IsMatch(s))) newObject.Add(Double.Parse(s));
                             if ((s != "") && (!numbersReg.IsMatch(s)))
                                 newObject.Add(Double.Parse(s));
+                            else if (numbersReg.IsMatch(s))
+                            {   if (!myReg.IsMatch(s))
+                                {
+                                    newObject.Add(s);
+                                }
+                            }
+                        }
+
                         data.Add(newObject);
                     }
                     str = sr.ReadLine();
