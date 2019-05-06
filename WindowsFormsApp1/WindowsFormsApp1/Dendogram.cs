@@ -16,7 +16,7 @@ namespace WindowsFormsApp1
     }
     class DendogramDouble : Dendogram
     {
-        public DendogramDouble(List<List<double>> FullData, int ObjectsIndent, int DistanceIndent, int TopIndent, int LeftIndent) : base(ObjectsIndent, DistanceIndent, TopIndent, LeftIndent, FullData.Count, FullData[0].Count)
+        public DendogramDouble(List<List<Object>> FullData, int ObjectsIndent, int DistanceIndent, int TopIndent, int LeftIndent) : base(ObjectsIndent, DistanceIndent, TopIndent, LeftIndent, FullData.Count, FullData[0].Count)
         {
             fullData = FullData;
         }

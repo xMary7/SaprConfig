@@ -3,24 +3,41 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
     class FileAnalizer
     {
-        public List<List<double>> GetNumericData(string fileName)
+        public List<List<Object>> GetNumericData(string fileName, string ind)
         {
-            List<List<double>> data = new List<List<double>>();
+            List<List<Object>> data = new List<List<Object>>();
             using (StreamReader sr = new StreamReader(fileName))
             {
                 string str = sr.ReadLine();
                 while (str != null)
                 {
-                    List<double> newObject = new List<double>();
-                    foreach (string s in str.Split(' ').ToList())
-                        if (s != "") newObject.Add(Double.Parse(s));
-                    data.Add(newObject);
+                    Regex numbersReg = new Regex(@"[a-z]");
+                    Regex myReg = new Regex(ind);
+                    if (myReg.IsMatch(str))
+                    {
+                        List<Object> newObject = new List<Object>();
+                        foreach (string s in str.Split(' ').ToList())
+                        {
+                            //if ((s != "") && (!myReg.IsMatch(s))) newObject.Add(Double.Parse(s));
+                            if ((s != "") && (!numbersReg.IsMatch(s)))
+                                newObject.Add(Double.Parse(s));
+                            else if (numbersReg.IsMatch(s))
+                            {   if (!myReg.IsMatch(s))
+                                {
+                                    newObject.Add(s);
+                                }
+                            }
+                        }
+
+                        data.Add(newObject);
+                    }
                     str = sr.ReadLine();
                 }
 

@@ -22,8 +22,11 @@ namespace WindowsFormsApp1
         public static void AddPicture(Dendogram d)
         {
             countOfPages++;
-            pictures.Add(d);
-            Bitmap btm = d.GetPicture(0);
+            if (d.fullData.Count > 1)
+            {
+                pictures.Add(d);
+                Bitmap btm = d.GetPicture(0);
+            }
             Page page = new Page(countOfPages, d);
             pages.Add(page);
             page.Show();
