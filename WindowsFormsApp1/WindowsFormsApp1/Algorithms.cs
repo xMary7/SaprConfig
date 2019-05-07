@@ -306,7 +306,7 @@ namespace WindowsFormsApp1
                     //Объединилимножества
                     dendogram.AddUnion(n, P[min], key);
                     // Определиликонстанты
-                    if (nameOfDistanceFunc == "average" || nameOfDistanceFunc == "cen-troid")
+                    if (nameOfDistanceFunc == "average" || nameOfDistanceFunc == "centroid")
                     {
                         for (int i = 0; i < 2; i++)
                         {
@@ -367,7 +367,7 @@ namespace WindowsFormsApp1
                     {
                         Tuple<int, int> t = new Tuple<int, int>(Math.Min(i, key[j]), Math.Max(i, key[j]));
                         r[j] = R[t];
-                        R.Remove(t);   //удалили расстояния где есть объединен-ные множества
+                        R.Remove(t);   //удалили расстояния где есть объединенные множества
                         if (P.ContainsKey(t))
                             P.Remove(new Tuple<int, int>(Math.Min(i, key[j]), Math.Max(i, key[j])));
                     }
