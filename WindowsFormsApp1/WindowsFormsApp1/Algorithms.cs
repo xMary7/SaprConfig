@@ -134,7 +134,7 @@ namespace WindowsFormsApp1
                 }
             }
         }
-        public Dendogram Algorithm(string nameOfDistanceFunc, string nameOfFunction, int n, Double cost, Double duration)
+        public Dendogram Algorithm(string nameOfDistanceFunc, string nameOfFunction, int n)
         {
             n1 = n;
             if (nameOfDistanceFunc == "Wards")
@@ -159,6 +159,84 @@ namespace WindowsFormsApp1
             else
                 return Fast_Lance_Wiliams(nameOfDistanceFunc, ref log);
         }
+
+        //public Dendogram DeleteClusters(Dendogram d, List<int> pos)
+        //{
+        //    Dendogram newD = d;
+        //    foreach (int a in pos)
+        //    {
+        //        newD.DeleteClust(a);
+        //    }
+        //    return newD;
+        //}
+
+        //public Dendogram Algorithm(string nameOfDistanceFunc, string nameOfFunction, int n, Double cost, Double duration)
+        //{
+        //    Dendogram toOutput = AlgorithmClustering(nameOfDistanceFunc, nameOfFunction, n);
+
+        //    List<Double> avgCost = new List<Double>();
+        //    List<Double> avgDuration = new List<Double>();
+
+        //    for (int i = 0; i < toOutput.clusters.Count; i++)
+        //    {
+        //        toOutput.clusters[i].Sort();
+        //        // str += "Cluster " + (i + 1) + ":\n{";
+        //        //str += d.clusters[i][0] + ": " + d.fullData[i][0] + " ";
+        //        for (int elem = 0; elem < toOutput.clusters[i].Count; elem++)
+        //        {
+        //            double sumCost = 0;
+        //            double m = 0;
+        //            double sumDuration = 0;
+        //            // str += d.clusters[i][elem] + ": ";
+        //            for (int k = 0; k < toOutput.fullData[elem].Count; k++)
+        //            {
+        //                Type t = toOutput.fullData[elem][k].GetType();
+        //                if (t.Equals(typeof(Double)))
+        //                {
+        //                    if (m == 0)
+        //                    {
+        //                        sumCost += toOutput.fullData[elem][k];
+        //                        m = 1;
+        //                    }
+        //                    else
+        //                    {
+        //                        sumDuration += toOutput.fullData[elem][k];
+        //                        m = 0;
+        //                    }
+        //                }
+        //                avgCost.Add(Math.Abs(sumCost / toOutput.clusters[i].Count - cost));
+        //                avgDuration.Add(Math.Abs(sumDuration / toOutput.clusters[i].Count - duration));
+        //            }
+
+        //        }
+        //    }
+        //    // Dendogram final;
+        //    List<int> ind = new List<int>();
+        //    List<int> ind1 = new List<int>();
+        //    List<int> ind2 = new List<int>();
+        //    double minCost = avgCost.Min();
+        //    double minDuration = avgDuration.Min();
+        //    for(int m = 0; m < avgCost.Count; m++)
+        //    {
+        //        if (avgCost[m] == minCost)
+        //            ind1.Add(avgCost.IndexOf(minCost, m));
+        //    }
+        //    for (int l = 0; l < avgDuration.Count; l++)
+        //    {
+        //        if (avgDuration[l] == minDuration)
+        //            ind2.Add(avgCost.IndexOf(minDuration, l));
+        //    }
+        //    ind = ind1.Union(ind2).ToList();
+
+            //ind.Add(avgCost.IndexOf(avgCost.Min()));
+            //if (avgCost.IndexOf(avgCost.Min()) != avgDuration.IndexOf(avgDuration.Min()))
+            //{
+            //    ind.Add(avgDuration.IndexOf(avgDuration.Min()));
+            //}                           
+        //    return DeleteClusters(toOutput, ind);
+        //}
+
+
         private void GetRandomObjects(int n1, Dictionary<int, Set> set1, Dictionary<int, Set> set)
         {
             List<int> randomList = new List<int>();
@@ -209,7 +287,7 @@ namespace WindowsFormsApp1
                     // dendogram.set.Add(n, new List<int>(set[key[0]].Concat(set[key[1]]).ToList()));
                     dendogram.AddUnion(n, R.ElementAt(0).Value, key);
                     // Определиликонстанты
-                    if (nameOfDistanceFunc == "average" || nameOfDistanceFunc == "cen-troid")
+                    if (nameOfDistanceFunc == "average" || nameOfDistanceFunc == "centroid")
                     {
                         for (int i = 0; i < 2; i++)
                         {
@@ -306,7 +384,7 @@ namespace WindowsFormsApp1
                     //Объединилимножества
                     dendogram.AddUnion(n, P[min], key);
                     // Определиликонстанты
-                    if (nameOfDistanceFunc == "average" || nameOfDistanceFunc == "centroid")
+                    if (nameOfDistanceFunc == "average" || nameOfDistanceFunc == "cen-troid")
                     {
                         for (int i = 0; i < 2; i++)
                         {
@@ -367,7 +445,7 @@ namespace WindowsFormsApp1
                     {
                         Tuple<int, int> t = new Tuple<int, int>(Math.Min(i, key[j]), Math.Max(i, key[j]));
                         r[j] = R[t];
-                        R.Remove(t);   //удалили расстояния где есть объединенные множества
+                        R.Remove(t);   //удалили расстояния где есть объединен-ные множества
                         if (P.ContainsKey(t))
                             P.Remove(new Tuple<int, int>(Math.Min(i, key[j]), Math.Max(i, key[j])));
                     }

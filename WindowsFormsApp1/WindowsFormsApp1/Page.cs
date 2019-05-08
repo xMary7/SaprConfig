@@ -43,26 +43,26 @@ namespace WindowsFormsApp1
             d = D;
             if (d.fullData.Count > 1)
             {
-                btm = d.GetPicture(d.AutoCount);
-                pictureBox.Width = btm.Width;
-                pictureBox.Height = btm.Height;
-                pictureBox.Image = btm;
-                countOfClustersTB.Text = d.AutoCount.ToString();
+               // btm = d.GetPicture(d.AutoCount);
+               // pictureBox.Width = btm.Width;
+                //pictureBox.Height = btm.Height;
+                //pictureBox.Image = btm;
+                //countOfClustersTB.Text = d.AutoCount.ToString();
                 infoOfClustersRTB.Text = GetInfoOfClusters();
-                pictureBox.Show();
-                double F1 = (AnalysisOfClustering.F1(d.fullData, d.clusters));
-                double F2 = (AnalysisOfClustering.F4(d.fullData, d.clusters));
-                F1Lb.Text = F1.ToString();
-                F2Lb.Text = F2.ToString() + "\n" + (F1 / F2).ToString();
-                string s1 = ""; string s2 = "";
-                for (int i = 1; i <= d.fullData.Count; i++)
-                {
-                    btm = d.GetPicture(i);
-                    s1 += (AnalysisOfClustering.F1(d.fullData, d.clusters)).ToString() + "\t";
-                    s2 += (AnalysisOfClustering.F4(d.fullData, d.clusters)).ToString() + "\t";
-                }
-                infoOfClustersRTB.Text += "F1:" + s1 + "\n";
-                infoOfClustersRTB.Text += "F2:" + s2 + "\n";
+                //pictureBox.Show();
+                //double F1 = (AnalysisOfClustering.F1(d.fullData, d.clusters));
+                //double F2 = (AnalysisOfClustering.F4(d.fullData, d.clusters));
+                //F1Lb.Text = F1.ToString();
+                //F2Lb.Text = F2.ToString() + "\n" + (F1 / F2).ToString();
+                //string s1 = ""; string s2 = "";
+                //for (int i = 1; i <= d.fullData.Count; i++)
+                //{
+                //    btm = d.GetPicture(i);
+                //    s1 += (AnalysisOfClustering.F1(d.fullData, d.clusters)).ToString() + "\t";
+                //    s2 += (AnalysisOfClustering.F4(d.fullData, d.clusters)).ToString() + "\t";
+                //}
+                //infoOfClustersRTB.Text += "F1:" + s1 + "\n";
+                //infoOfClustersRTB.Text += "F2:" + s2 + "\n";
             }
             else
             {
@@ -74,13 +74,14 @@ namespace WindowsFormsApp1
 
         private string GetInfoOfClusters()
         {
-            List<Object> temp = new List<Object>();
+            
 
             string str = "";
             if (d.fullData.Count > 1)
             {
                 for (int i = 0; i < d.clusters.Count; i++)
                 {
+                    List<Object> temp = new List<Object>();
                     d.clusters[i].Sort();
                     str += "Cluster " + (i + 1) + ":\n{";
                     //str += d.clusters[i][0] + ": " + d.fullData[i][0] + " ";
@@ -88,11 +89,11 @@ namespace WindowsFormsApp1
                     {
                         
                        // str += d.clusters[i][elem] + ": ";
-                        for (int n = 0; n < d.fullData[elem].Count; n++) {
-                            Type t = d.fullData[elem][n].GetType();
+                        for (int n = 0; n < d.fullData[d.clusters[i][elem]].Count; n++) {
+                            Type t = d.fullData[d.clusters[i][elem]][n].GetType();
                             if (!t.Equals(typeof(Double)))
                             {
-                                temp.Add(d.fullData[elem][n]);
+                                temp.Add(d.fullData[d.clusters[i][elem]][n]);
                                 //str += d.fullData[elem][n] + " ";
                             }
                         }
@@ -105,11 +106,12 @@ namespace WindowsFormsApp1
                     }
 
                     str += "}\n";
+                    temp.Clear();
                 }
             }
             else
             {
-
+                List<Object> temp = new List<Object>();
                 str += "Cluster 1: {";
                // str += d.fullData[0][0];
                 for (int elem = 0; elem < d.fullData[0].Count; elem++)

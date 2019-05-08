@@ -187,6 +187,10 @@ namespace WindowsFormsApp1
                     return (s.elements[1].r + (s.r - s.elements[1].r) / 2);
             }
         }
+        public void DeleteClust(int i) 
+        {
+            clusters.RemoveAt(i);
+        } 
     }
 
 }
