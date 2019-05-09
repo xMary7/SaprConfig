@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp1
@@ -23,10 +17,23 @@ namespace WindowsFormsApp1
         //private Label label4 = new Label();
         //private Label accuracyLb = new Label();
         //private Label timeProfit = new Label();
+        public static MainWindow Instance { get; private set;}
+
         public MainWindow()
         {
             InitializeComponent();
             Repository.Initialize();
+            Instance = this;
+        }
+
+        public static Double theCost()
+        {
+            return Double.Parse(Instance.textBox3.Text);
+        }
+
+        public static Double theDur()
+        {
+            return Double.Parse(Instance.textBox4.Text);
         }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
@@ -52,7 +59,7 @@ namespace WindowsFormsApp1
                 a = new AlgorithmForDouble(fa.GetNumericData(textBox1.Text, comboBox3.Text));
             //if (fa.GetNumericData(textBox1.Text, comboBox3.Text).Count > 1)
             //{
-                Repository.AddPicture(a.Algorithm(comboBox2.Text, comboBox1.Text, Int32.Parse(textBox2.Text)), Double.Parse(textBox3.Text), Double.Parse(textBox4.Text));
+            Repository.AddPicture(a.Algorithm(comboBox2.Text, comboBox1.Text, Int32.Parse(textBox2.Text)), Double.Parse(textBox3.Text), Double.Parse(textBox4.Text));
             //}
         }
 

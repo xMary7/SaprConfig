@@ -35,12 +35,13 @@ namespace WindowsFormsApp1
             number = Number;
             Text = "Page " + Number;
         }
-        public Page(int Number, Dendogram D)
+        public Page(int Number, Dendogram Out, Double cost, Double duration)
         {
 
             InitializeComponent();
             ChangeNumber(Number);
-            d = D;
+            Out = PostAnalysis(Out, cost, duration);
+            d = Out;
             if (d.fullData.Count > 1)
             {
                // btm = d.GetPicture(d.AutoCount);
@@ -82,8 +83,8 @@ namespace WindowsFormsApp1
                 for (int i = 0; i < d.clusters.Count; i++)
                 {
                     List<Object> temp = new List<Object>();
-                    d.clusters[i].Sort();
-                    str += "Cluster " + (i + 1) + ":\n{";
+                    d.clusters[i].Sort();                  
+                    
                     //str += d.clusters[i][0] + ": " + d.fullData[i][0] + " ";
                     for (int elem = 0; elem < d.clusters[i].Count; elem++)
                     {
@@ -99,13 +100,17 @@ namespace WindowsFormsApp1
                         }
                         //str += "\n";
                     }
-                    IEnumerable<Object> subsystems = temp.Distinct();
-                    foreach (var ss in subsystems)
+                    if (temp.Count != 0)
                     {
-                        str += ss + " \n";
-                    }
+                        str += "Cluster " + (i + 1) + ":\n{";
+                        IEnumerable<Object> subsystems = temp.Distinct();
+                        foreach (var ss in subsystems)
+                        {
+                            str += ss + " \n";
+                        }
 
-                    str += "}\n";
+                        str += "}\n";
+                    }
                     temp.Clear();
                 }
             }
@@ -295,6 +300,10 @@ namespace WindowsFormsApp1
                     btm = d.GetPicture(countOfClusters);
                     pictureBox.Image = d.GetPicture(countOfClusters);
                 }
+                // To enter function
+                Double cost = MainWindow.theCost();
+                Double dur = MainWindow.theDur();
+                d = PostAnalysis(d, cost, dur);
                 infoOfClustersRTB.Text = GetInfoOfClusters();
                 double F1 = (AnalysisOfClustering.F1(d.fullData, d.clusters));
                 double F2 = (AnalysisOfClustering.F4(d.fullData, d.clusters));
@@ -315,6 +324,100 @@ namespace WindowsFormsApp1
                 countOfClustersTB.Text = d.AutoCount.ToString();
             }
         }
+
+        public Dendogram DeleteClusters(Dendogram d, List<int> pos)
+        {
+            Dendogram newD = d;
+            foreach (int a in pos)
+            {
+                newD.DeleteClust(a);
+            }
+            return newD;
+        }
+
+        public Dendogram PostAnalysis(Dendogram den, Double cost, Double duration)
+        {
+            List<Double> avgCost = new List<Double>();
+            List<Double> avgDuration = new List<Double>();
+
+            for (int i = 0; i<den.clusters.Count; i++)
+            {
+                double sumCost = 0;
+                double sumDuration = 0;
+                den.clusters[i].Sort();
+                // str += "Cluster " + (i + 1) + ":\n{";
+                //str += d.clusters[i][0] + ": " + d.fullData[i][0] + " ";
+                for (int elem = 0; elem<den.clusters[i].Count; elem++)
+                {                
+                    double m = 0;                    
+                    // str += d.clusters[i][elem] + ": ";
+                    for (int k = 0; k<den.fullData[den.clusters[i][elem]].Count; k++)
+                    {
+                        Type t = den.fullData[den.clusters[i][elem]][k].GetType();
+                        if (t.Equals(typeof(Double)))
+                        {
+                            if (m == 0)
+                            {
+                                sumCost += den.fullData[den.clusters[i][elem]][k];
+                                m = 1;
+                            }
+                            else
+                            {
+                                sumDuration += den.fullData[den.clusters[i][elem]][k];
+                                m = 0;
+                            }
+                        }
+
+                    }
+                }
+                avgCost.Add(Math.Abs((double)(sumCost / den.clusters[i].Count) - cost));
+                avgDuration.Add(Math.Abs((double)(sumDuration / den.clusters[i].Count) - duration));
+            }
+            // Dendogram final;
+            List<int> ind = new List<int>();
+            List<int> ind1 = new List<int>();
+            List<int> ind2 = new List<int>();
+            double minCost = avgCost.Min();
+            double minDuration = avgDuration.Min();
+            for (int m = 0; m<avgCost.Count; m++)
+            {
+                if (avgCost[m] == minCost)
+                    ind1.Add(avgCost.IndexOf(minCost, m));
+            }
+            for (int l = 0; l<avgDuration.Count; l++)
+            {
+                if (avgDuration[l] == minDuration)
+                    ind2.Add(avgDuration.IndexOf(minDuration, l));
+            }
+            ind = ind1.Union(ind2).ToList();
+            int met = 0;
+            List<int> toDelete = new List<int>();
+            for (int i = 0; i<den.clusters.Count; i++)
+            {
+                met = 0;
+                for (int j = 0; j<ind.Count; j++)
+                {
+                    if (i == ind.ElementAt(j))
+                    {
+                        met = 1;
+                    }
+                }
+                if (met == 0)
+                {
+                    toDelete.Add(i);
+                }
+            }
+            Dendogram toOutput;
+            if (toDelete.Count != 0)
+            {
+                toOutput = DeleteClusters(den, toDelete);
+            }
+            else
+            {
+                toOutput = den;
+            }
+            return toOutput;
+    }
 
         private void Export_Click_1(object sender, EventArgs e)
         {
