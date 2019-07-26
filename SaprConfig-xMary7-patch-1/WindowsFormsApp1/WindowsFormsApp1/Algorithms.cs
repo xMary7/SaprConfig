@@ -44,7 +44,7 @@ namespace WindowsFormsApp1
                 Type t2 = obj2[k].GetType();
                 if (t1.Equals(typeof(Double)) && t2.Equals(typeof(Double)))
                 {
-                    distance += Math.Abs(Convert.ToDouble(obj1[k]) - Convert.ToDouble(obj2[k]));
+                    distance += Math.Pow(Math.Abs(Convert.ToDouble(obj1[k]) - Convert.ToDouble(obj2[k])), 2);
                 }
             }
             return Math.Sqrt(distance);
@@ -137,20 +137,20 @@ namespace WindowsFormsApp1
         public Dendogram Algorithm(string nameOfDistanceFunc, string nameOfFunction, int n)
         {
             n1 = n;
-            if (nameOfDistanceFunc == "Wards")
+            if (nameOfDistanceFunc == "Уорда")
                 yorchil = true;
             //Подготовили файл для записи
             File.Create("log1.txt").Close();
             //Имя расстояния добавили на вывод в файл
             string log = nameOfDistanceFunc + "\r\n";
             // определиликонстанты
-            if (yorchil == false && nameOfDistanceFunc == "nearest neighbor" || nameOfDistanceFunc == "furthest neighbor")
+            if (yorchil == false && nameOfDistanceFunc == "ближайшего соседа" || nameOfDistanceFunc == "дальнего соседа")
             {
                 a[0] = a[1] = 0.5;
                 switch (nameOfDistanceFunc)
                 {
-                    case "nearest neighbor": g = -0.5; break;
-                    case "furthest neighbor": g = 0.5; break;
+                    case "ближайшего соседа": g = -0.5; break;
+                    case "дальнего соседа": g = 0.5; break;
                 }
             }
             //Вызовфункции
@@ -287,13 +287,13 @@ namespace WindowsFormsApp1
                     // dendogram.set.Add(n, new List<int>(set[key[0]].Concat(set[key[1]]).ToList()));
                     dendogram.AddUnion(n, R.ElementAt(0).Value, key);
                     // Определиликонстанты
-                    if (nameOfDistanceFunc == "average" || nameOfDistanceFunc == "centroid")
+                    if (nameOfDistanceFunc == "среднее расстояние" || nameOfDistanceFunc == "расстояние между центрами")
                     {
                         for (int i = 0; i < 2; i++)
                         {
                             a[i] = (double)dendogram.set[key[i]].countOfElem / dendogram.set[n].countOfElem;
                         }
-                        if (nameOfDistanceFunc == "centroid")
+                        if (nameOfDistanceFunc == "расстояние между центрами")
                         {
                             // case "group average distance": b = 0; g = 0; break;
                             b = -a[0] * a[1];
@@ -384,13 +384,13 @@ namespace WindowsFormsApp1
                     //Объединилимножества
                     dendogram.AddUnion(n, P[min], key);
                     // Определиликонстанты
-                    if (nameOfDistanceFunc == "average" || nameOfDistanceFunc == "cen-troid")
+                    if (nameOfDistanceFunc == "среднее расстояние" || nameOfDistanceFunc == "расстояние между центрами")
                     {
                         for (int i = 0; i < 2; i++)
                         {
                             a[i] = (double)dendogram.set[key[i]].countOfElem / dendogram.set[n].countOfElem;
                         }
-                        if (nameOfDistanceFunc == "centroid")
+                        if (nameOfDistanceFunc == "расстояние между центрами")
                         {
                             // case "group average distance": b = 0; g = 0; break;
                             b = -a[0] * a[1];
@@ -445,7 +445,7 @@ namespace WindowsFormsApp1
                     {
                         Tuple<int, int> t = new Tuple<int, int>(Math.Min(i, key[j]), Math.Max(i, key[j]));
                         r[j] = R[t];
-                        R.Remove(t);   //удалили расстояния где есть объединен-ные множества
+                        R.Remove(t);   //удалили расстояния где есть объединенные множества
                         if (P.ContainsKey(t))
                             P.Remove(new Tuple<int, int>(Math.Min(i, key[j]), Math.Max(i, key[j])));
                     }

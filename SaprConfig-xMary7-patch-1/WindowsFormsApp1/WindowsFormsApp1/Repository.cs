@@ -37,6 +37,7 @@ namespace WindowsFormsApp1
             {
                 pictures.Add(d);
                 Bitmap btm = d.GetPicture(0);
+             //   Bitmap btm = d.GetPicture(d.clusters.Count - 3);
             }
             ////___________________________
             //List<Double> avgCost = new List<Double>();

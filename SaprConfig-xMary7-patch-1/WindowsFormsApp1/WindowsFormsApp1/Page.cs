@@ -42,13 +42,13 @@ namespace WindowsFormsApp1
             ChangeNumber(Number);
             Out = PostAnalysis(Out, cost, duration);
             d = Out;
-            if (d.fullData.Count > 1)
+            if (d.fullData.Count > 0)
             {
-               // btm = d.GetPicture(d.AutoCount);
+               //btm = d.GetPicture(d.AutoCount);
                // pictureBox.Width = btm.Width;
                 //pictureBox.Height = btm.Height;
                 //pictureBox.Image = btm;
-                //countOfClustersTB.Text = d.AutoCount.ToString();
+                countOfClustersTB.Text = d.AutoCount.ToString();
                 infoOfClustersRTB.Text = GetInfoOfClusters();
                 //pictureBox.Show();
                 //double F1 = (AnalysisOfClustering.F1(d.fullData, d.clusters));
@@ -69,14 +69,16 @@ namespace WindowsFormsApp1
             {
                 //countOfClustersTB.Text = d.AutoCount.ToString();
                 countOfClustersTB.Text = d.fullData.Count.ToString();
-                infoOfClustersRTB.Text = GetInfoOfClusters();
+                //infoOfClustersRTB.Text = GetInfoOfClusters();
+                infoOfClustersRTB.Text = "There is no data in such industry.";
             }
         }
 
         private string GetInfoOfClusters()
         {
-            
-
+            double aCost = 0;
+            double aDur = 0;
+            int mm = 0;
             string str = "";
             if (d.fullData.Count > 1)
             {
@@ -90,26 +92,44 @@ namespace WindowsFormsApp1
                     {
                         
                        // str += d.clusters[i][elem] + ": ";
-                        for (int n = 0; n < d.fullData[d.clusters[i][elem]].Count; n++) {
+                        for (int n = 0; n < d.fullData[d.clusters[i][elem]].Count; n++)
+                        {
                             Type t = d.fullData[d.clusters[i][elem]][n].GetType();
                             if (!t.Equals(typeof(Double)))
                             {
                                 temp.Add(d.fullData[d.clusters[i][elem]][n]);
                                 //str += d.fullData[elem][n] + " ";
+                            } else
+                            {
+                                if (mm == 0)
+                                {
+                                    aCost += d.fullData[d.clusters[i][elem]][n];
+                                    mm = 1;
+                                }
+                                else
+                                {
+                                    aDur += d.fullData[d.clusters[i][elem]][n];
+                                    mm = 0;
+                                }
                             }
                         }
-                        //str += "\n";
+
                     }
+                 
+
                     if (temp.Count != 0)
                     {
-                        str += "Cluster " + (i + 1) + ":\n{";
-                        IEnumerable<Object> subsystems = temp.Distinct();
+                        str += "Рекомендовано " + d.clusters[i].Count + " проекта(ов)\n\n";
+                        str += "Средняя стоимость проектов: " + aCost / d.clusters[i].Count + "\n\n";
+                        str += "Средняя длительность проектирования: " + aDur / d.clusters[i].Count + "\n\n";
+                        str += "Предлагаемые подсистемы: \n";
+
+                        IEnumerable<Object> subsystems = temp.Distinct();                       
                         foreach (var ss in subsystems)
                         {
                             str += ss + " \n";
                         }
 
-                        str += "}\n";
                     }
                     temp.Clear();
                 }
@@ -150,6 +170,7 @@ namespace WindowsFormsApp1
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Page));
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.countOfClustersTB = new System.Windows.Forms.TextBox();
             this.infoOfClustersRTB = new System.Windows.Forms.RichTextBox();
@@ -166,107 +187,117 @@ namespace WindowsFormsApp1
             // 
             // pictureBox
             // 
-            this.pictureBox.Location = new System.Drawing.Point(269, 26);
+            this.pictureBox.Location = new System.Drawing.Point(616, 177);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(513, 459);
+            this.pictureBox.Size = new System.Drawing.Size(166, 308);
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
+            this.pictureBox.Visible = false;
             // 
             // countOfClustersTB
             // 
             this.countOfClustersTB.Enabled = false;
-            this.countOfClustersTB.Location = new System.Drawing.Point(173, 36);
+            this.countOfClustersTB.Location = new System.Drawing.Point(369, 48);
             this.countOfClustersTB.Name = "countOfClustersTB";
             this.countOfClustersTB.Size = new System.Drawing.Size(36, 26);
             this.countOfClustersTB.TabIndex = 1;
             // 
             // infoOfClustersRTB
             // 
-            this.infoOfClustersRTB.Location = new System.Drawing.Point(12, 106);
+            this.infoOfClustersRTB.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.infoOfClustersRTB.Location = new System.Drawing.Point(80, 87);
             this.infoOfClustersRTB.Name = "infoOfClustersRTB";
-            this.infoOfClustersRTB.Size = new System.Drawing.Size(149, 190);
+            this.infoOfClustersRTB.Size = new System.Drawing.Size(356, 314);
             this.infoOfClustersRTB.TabIndex = 2;
             this.infoOfClustersRTB.Text = "";
             // 
             // F1Lb
             // 
             this.F1Lb.AutoSize = true;
-            this.F1Lb.Location = new System.Drawing.Point(62, 372);
+            this.F1Lb.Location = new System.Drawing.Point(786, 57);
             this.F1Lb.Name = "F1Lb";
             this.F1Lb.Size = new System.Drawing.Size(14, 20);
             this.F1Lb.TabIndex = 3;
             this.F1Lb.Text = "-";
+            this.F1Lb.Visible = false;
             // 
             // F2Lb
             // 
             this.F2Lb.AutoSize = true;
-            this.F2Lb.Location = new System.Drawing.Point(62, 430);
+            this.F2Lb.Location = new System.Drawing.Point(786, 93);
             this.F2Lb.Name = "F2Lb";
             this.F2Lb.Size = new System.Drawing.Size(14, 20);
             this.F2Lb.TabIndex = 4;
             this.F2Lb.Text = "-";
+            this.F2Lb.Visible = false;
             // 
             // executeBtn
             // 
-            this.executeBtn.Location = new System.Drawing.Point(12, 68);
+            this.executeBtn.Location = new System.Drawing.Point(208, 434);
             this.executeBtn.Name = "executeBtn";
-            this.executeBtn.Size = new System.Drawing.Size(91, 33);
+            this.executeBtn.Size = new System.Drawing.Size(112, 33);
             this.executeBtn.TabIndex = 5;
-            this.executeBtn.Text = "Execute";
+            this.executeBtn.Text = "Выполнить";
             this.executeBtn.UseVisualStyleBackColor = true;
             this.executeBtn.Click += new System.EventHandler(this.ExecuteBtn_Click_1);
             // 
             // manualCB
             // 
             this.manualCB.AutoSize = true;
-            this.manualCB.Location = new System.Drawing.Point(22, 3);
+            this.manualCB.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.manualCB.Location = new System.Drawing.Point(113, 15);
             this.manualCB.Name = "manualCB";
-            this.manualCB.Size = new System.Drawing.Size(139, 24);
+            this.manualCB.Size = new System.Drawing.Size(292, 24);
             this.manualCB.TabIndex = 6;
-            this.manualCB.Text = "Manual setting";
-            this.manualCB.UseVisualStyleBackColor = true;
+            this.manualCB.Text = "Настройка уровня кластеризации";
+            this.manualCB.UseVisualStyleBackColor = false;
             this.manualCB.CheckedChanged += new System.EventHandler(this.ManualCB_CheckedChanged_1);
             // 
             // Export
             // 
-            this.Export.Location = new System.Drawing.Point(47, 302);
+            this.Export.Location = new System.Drawing.Point(754, 3);
             this.Export.Name = "Export";
             this.Export.Size = new System.Drawing.Size(76, 31);
             this.Export.TabIndex = 7;
             this.Export.Text = "Export";
             this.Export.UseVisualStyleBackColor = true;
+            this.Export.Visible = false;
             this.Export.Click += new System.EventHandler(this.Export_Click_1);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 39);
+            this.label1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label1.Location = new System.Drawing.Point(121, 48);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 20);
+            this.label1.Size = new System.Drawing.Size(184, 20);
             this.label1.TabIndex = 8;
-            this.label1.Text = "Number of clusters";
+            this.label1.Text = "Количество кластеров";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 352);
+            this.label2.Location = new System.Drawing.Point(533, 57);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(232, 20);
             this.label2.TabIndex = 9;
             this.label2.Text = "Sum of average inner distances";
+            this.label2.Visible = false;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 402);
+            this.label3.Location = new System.Drawing.Point(533, 90);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(214, 20);
             this.label3.TabIndex = 10;
             this.label3.Text = "Sum of intercluster distances";
+            this.label3.Visible = false;
             // 
             // Page
             // 
-            this.ClientSize = new System.Drawing.Size(827, 515);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.ClientSize = new System.Drawing.Size(506, 505);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -373,23 +404,41 @@ namespace WindowsFormsApp1
                 avgCost.Add(Math.Abs((double)(sumCost / den.clusters[i].Count) - cost));
                 avgDuration.Add(Math.Abs((double)(sumDuration / den.clusters[i].Count) - duration));
             }
-            // Dendogram final;
+            List<double> avgR = new List<double>();
             List<int> ind = new List<int>();
-            List<int> ind1 = new List<int>();
-            List<int> ind2 = new List<int>();
-            double minCost = avgCost.Min();
-            double minDuration = avgDuration.Min();
-            for (int m = 0; m<avgCost.Count; m++)
+            avgR.Add(Math.Sqrt(Math.Pow(avgCost[0], 2)) + Math.Sqrt(Math.Pow(avgDuration[0], 2)));
+            double min = avgR[0];
+            for (int g = 1; g < avgCost.Count; g++)
             {
-                if (avgCost[m] == minCost)
-                    ind1.Add(avgCost.IndexOf(minCost, m));
+                avgR.Add(Math.Sqrt(Math.Pow(avgCost[g], 2)) + Math.Sqrt(Math.Pow(avgDuration[g], 2)));
+                if (min > avgR[g]) {
+                    min = avgR[g];
+                } 
             }
-            for (int l = 0; l<avgDuration.Count; l++)
+            for (int t = 0; t < avgR.Count; t++)
             {
-                if (avgDuration[l] == minDuration)
-                    ind2.Add(avgDuration.IndexOf(minDuration, l));
+                if (min == avgR[t])
+                {
+                    ind.Add(t);
+                }
             }
-            ind = ind1.Union(ind2).ToList();
+            // Dendogram final;
+            //List<int> ind = new List<int>();
+            //List<int> ind1 = new List<int>();
+            //List<int> ind2 = new List<int>();
+            //double minCost = avgCost.Min();
+            //double minDuration = avgDuration.Min();
+            //for (int m = 0; m<avgCost.Count; m++)
+            //{
+            //    if (avgCost[m] == minCost)
+            //        ind1.Add(avgCost.IndexOf(minCost, m));
+            //}
+            //for (int l = 0; l<avgDuration.Count; l++)
+            //{
+            //    if (avgDuration[l] == minDuration)
+            //        ind2.Add(avgDuration.IndexOf(minDuration, l));
+            //}
+            //ind = ind1.Union(ind2).ToList();
             int met = 0;
             List<int> toDelete = new List<int>();
             for (int i = 0; i<den.clusters.Count; i++)

@@ -165,7 +165,8 @@ namespace WindowsFormsApp1
             else
             {
                 gr.Clear(Color.White);
-                DrawDendogram(set.ElementAt(0).Key - usersCountOfClusters + 2, gr);
+                 DrawDendogram(set.ElementAt(0).Key - usersCountOfClusters + 2, gr);
+                //DrawDendogram(usersCountOfClusters, gr);
             }
             return btm;
         }

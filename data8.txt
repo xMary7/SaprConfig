@@ -1,0 +1,46 @@
+{
+"name":[
+"Project1":{
+"cost": 0,
+"duration": 1,
+"industry": "Industry1",
+"subsystems": "subsystem19"
+},
+"Project2":{
+"cost": 3,
+"duration": 4,
+"industry": "Industry1",
+"subsystems": "subsystem8"
+},
+"Project3":{
+"cost": 6,
+"duration": 9,
+"industry": "Industry1",
+"subsystems": "subsystem1"
+},
+"Project4":{
+"cost": 10,
+"duration": 4,
+"industry": "Industry1",
+"subsystems": "subsystem2"
+},
+"Project5":{
+"cost": 23,
+"duration": 20,
+"industry": "Industry1",
+"subsystems": "subsystem19"
+},
+"Project6":{
+"cost": 2,
+"duration": 8,
+"industry": "Industry2",
+"subsystems": "subsystem6"
+},
+"Project7":{
+"cost": 7,
+"duration": 16,
+"industry": "Industry1",
+"subsystems": "subsystem8"
+}
+]
+}
